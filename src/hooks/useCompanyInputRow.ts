@@ -4,8 +4,8 @@ import { CompanyInput } from '@/lib/types';
 type NumericField = Exclude<keyof CompanyInput, 'id' | 'companyName'>;
 
 /**
- * Custom hook for managing company input row state
- * Handles draft values for decimal input (e.g., ".05")
+ * managing company input row state
+ * Handles draft values for decimal input
  */
 export function useCompanyInputRow(company: CompanyInput) {
   const [draftValues, setDraftValues] = useState<Record<NumericField, string>>({
@@ -46,7 +46,7 @@ export function useCompanyInputRow(company: CompanyInput) {
     rawValue: string,
     onChange: (value: number) => void,
   ) => {
-    // Allow partial decimal inputs like ".", ".0", ".05"
+    // Allow partial decimal inputs
     setDraftValues((prev) => ({ ...prev, [field]: rawValue }));
 
     if (rawValue === '' || rawValue === '.') {

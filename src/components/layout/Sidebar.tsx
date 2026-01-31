@@ -7,7 +7,7 @@ import React from 'react';
 interface NavItem {
   name: string;
   href: string;
-  icon: string;
+
   available: boolean;
 }
 
@@ -15,13 +15,13 @@ const navItems: NavItem[] = [
   {
     name: 'Dashboard',
     href: '/',
-    icon: '🏠',
+
     available: true,
   },
   {
-    name: 'Non-Masking SMS',
-    href: '/non-masking',
-    icon: '📱',
+    name: 'SMS',
+    href: '/SMS',
+
     available: true,
   },
 ];
@@ -60,7 +60,6 @@ export default function Sidebar() {
                 `}
                 onClick={(e) => !isAvailable && e.preventDefault()}
               >
-                <span className="text-2xl">{item.icon}</span>
                 <div className="flex-1">
                   <span className="block">{item.name}</span>
                   {!isAvailable && (

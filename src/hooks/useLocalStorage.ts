@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Custom hook for localStorage management with error handling
+ * localStorage management with error handling
  */
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load from localStorage on mount
+  // Load from localStorage
   useEffect(() => {
     try {
       if (typeof window === 'undefined') {
@@ -31,7 +31,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     }
   }, [key]);
 
-  // Save to localStorage whenever value changes
+  // Save to localStorage
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       if (typeof window === 'undefined') {

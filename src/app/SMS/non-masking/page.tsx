@@ -18,7 +18,7 @@ export default function NonMaskingCalculator() {
 
   const handleSubmit = (companies: CompanyInput[]) => {
     calculate(companies);
-    // Auto-reset form after calculation
+    // Auto-reset
     if ((window as any).__formReset) {
       (window as any).__formReset();
     }
@@ -49,16 +49,14 @@ export default function NonMaskingCalculator() {
     }
   };
 
+  // editing
   const handleEdit = (company: CompanyInput) => {
-    // Remove from results table
     removeResult(company.id);
 
-    // Load into form for editing
     if ((window as any).__formDataLoad) {
       (window as any).__formDataLoad([company]);
     }
 
-    // Scroll to form
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast(`Editing: ${company.companyName}`, 'info');
   };

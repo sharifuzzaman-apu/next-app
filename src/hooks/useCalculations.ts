@@ -3,7 +3,7 @@ import { calculateCompanyBilling, calculateTotals } from '@/lib/calculations';
 import { useLocalStorage } from './useLocalStorage';
 
 /**
- * Custom hook for non-masking calculator logic
+ * non-masking calculator logic
  */
 export function useNonMaskingCalculator() {
   const {
@@ -24,7 +24,7 @@ export function useNonMaskingCalculator() {
       ...calculateCompanyBilling(company),
     }));
 
-    // Append to existing results instead of replacing
+    // Append
     const allResults = [...results, ...newCalculatedResults];
     setResults(allResults);
 

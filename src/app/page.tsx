@@ -2,7 +2,7 @@
 
 import Container from '@/components/layout/Container';
 import PageHeader from '@/components/ui/PageHeader';
-import NonMaskingDashboardSection from '@/components/dashboard/NonMaskingDashboardSection';
+import Dashboard from '@/components/dashboard/Dashboard';
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           subtitle="Overview of all calculator sections"
         />
 
-        <NonMaskingDashboardSection />
+        <Dashboard />
       </div>
     </Container>
   );

@@ -13,7 +13,7 @@ export default function NonMaskingDashboardSection() {
   return (
     <div>
       <SectionHeader
-        icon="📱"
+        icon=""
         title="Non-Masking SMS"
         linkHref="/non-masking"
         linkText="Open Calculator"

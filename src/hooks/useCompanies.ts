@@ -3,7 +3,7 @@ import { CompanyInput } from '@/lib/types';
 import { generateId } from '@/lib/utils';
 
 /**
- * Custom hook for managing company list state
+ * managing company list state
  */
 export function useCompanies() {
   const [companies, setCompanies] = useState<CompanyInput[]>([
