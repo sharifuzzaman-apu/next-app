@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import Sidebar from '@/components/layout/Sidebar';
+import { ToastProvider } from '@/components/ui/toast/ToastProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,11 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100`}
+        className={`${inter.className} flex min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100`}
       >
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <ToastProvider>
+          <Sidebar />
+          <div className="flex-1 ml-sidebar flex flex-col">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
+        </ToastProvider>
       </body>
     </html>
   );

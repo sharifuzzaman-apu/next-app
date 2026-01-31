@@ -19,8 +19,8 @@ export function calculateCompanyBilling(input: CompanyInput): CompanyOutput {
   // 1. Price charged = No. of SMS × Price rate
   const priceCharged = input.numberOfSMS * input.priceRate;
 
-  // 2. VAT for the price = Price charged × 15%
-  const vatForPrice = priceCharged * VAT_RATE;
+  // 2. VAT for the price (inclusive) = Price charged × 15 / 115
+  const vatForPrice = priceCharged * (VAT_RATE / (1 + VAT_RATE));
 
   // 3. Paid to Intercloud = No. of SMS × Intercloud rate
   const paidToIntercloud = input.numberOfSMS * input.intercloudRate;
@@ -31,8 +31,8 @@ export function calculateCompanyBilling(input: CompanyInput): CompanyOutput {
   // 5. Total Paid to Intercloud = Paid to Intercloud + VAT Intercloud
   const totalPaidToIntercloud = paidToIntercloud + vatIntercloud;
 
-  // 6. Paid to BTRC = No. of SMS × BTRC rate
-  const paidToBTRC = input.numberOfSMS * input.btrcRate;
+  // 6. Paid to BTRC = No. of numbers × BTRC rate
+  const paidToBTRC = input.numberOfNumbers * input.btrcRate;
 
   // 7. VAT BTRC = Paid to BTRC × 15%
   const vatBTRC = paidToBTRC * VAT_RATE;

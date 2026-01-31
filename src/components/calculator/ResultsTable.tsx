@@ -7,19 +7,22 @@ import TotalRow from './TotalRow';
 
 interface ResultsTableProps {
   data: CompanyData[];
+  onEdit?: (company: CompanyData) => void;
 }
 
-export default function ResultsTable({ data }: ResultsTableProps) {
+export default function ResultsTable({ data, onEdit }: ResultsTableProps) {
   const totals = calculateTotals(data);
-
   return (
-    <Card>
+    <Card className="w-full">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Calculation Results
       </h2>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse min-w-max">
+      <div className="overflow-x-auto w-full">
+        <table
+          className="w-full border-collapse"
+          style={{ minWidth: '1800px' }}
+        >
           <thead>
             <tr className="bg-blue-600 text-white">
               <th className="px-4 py-3 text-left font-semibold">
@@ -58,11 +61,16 @@ export default function ResultsTable({ data }: ResultsTableProps) {
               <th className="px-4 py-3 text-right font-semibold">
                 Gross Profit
               </th>
+              <th className="px-4 py-3 text-center font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
             {data.map((company) => (
-              <ResultsTableRow key={company.id} company={company} />
+              <ResultsTableRow
+                key={company.id}
+                company={company}
+                onEdit={onEdit}
+              />
             ))}
             <TotalRow totals={totals} />
           </tbody>

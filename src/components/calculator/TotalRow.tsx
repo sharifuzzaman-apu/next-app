@@ -49,6 +49,7 @@ export default function TotalRow({ totals }: TotalRowProps) {
       <td className="px-4 py-3 text-right text-green-700 text-lg">
         {formatCurrency(totals.totalGrossProfit)}
       </td>
+      <td className="px-4 py-3 text-center text-blue-900">-</td>
     </tr>
   );
 }

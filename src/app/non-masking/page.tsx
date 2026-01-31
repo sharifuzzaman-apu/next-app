@@ -1,51 +1,85 @@
 'use client';
 
-import { useState } from 'react';
 import Container from '@/components/layout/Container';
 import CompanyInputForm from '@/components/calculator/CompanyInputForm';
 import ResultsTable from '@/components/calculator/ResultsTable';
 import CalculatorActions from '@/components/calculator/CalculatorActions';
-import { CompanyInput, CompanyData } from '@/lib/types';
-import { calculateCompanyBilling } from '@/lib/calculations';
+import PageHeader from '@/components/ui/PageHeader';
+import { CompanyInput } from '@/lib/types';
+import { useNonMaskingCalculator } from '@/hooks/useCalculations';
+import { useToast } from '@/components/ui/toast/ToastProvider';
+import { generatePDF } from '@/lib/pdfExport';
+import { calculateTotals } from '@/lib/calculations';
 
 export default function NonMaskingCalculator() {
-  const [results, setResults] = useState<CompanyData[]>([]);
+  const { results, totals, calculate, reset, removeResult } =
+    useNonMaskingCalculator();
+  const { showToast } = useToast();
 
   const handleSubmit = (companies: CompanyInput[]) => {
-    const calculatedResults = companies.map((company) => ({
-      ...company,
-      ...calculateCompanyBilling(company),
-    }));
-    setResults(calculatedResults);
+    calculate(companies);
+    // Auto-reset form after calculation
+    if ((window as any).__formReset) {
+      (window as any).__formReset();
+    }
   };
 
   const handleReset = () => {
-    setResults([]);
-    window.location.reload();
+    reset();
+    if ((window as any).__formReset) {
+      (window as any).__formReset();
+    }
+    showToast('All calculations cleared', 'info');
   };
 
   const handleExport = () => {
-    // Future feature: Export to Excel/PDF
-    alert('Export feature coming soon!');
+    if (results.length === 0) {
+      showToast('No results to export', 'warning');
+      return;
+    }
+
+    try {
+      const computedTotals = totals ?? calculateTotals(results);
+
+      generatePDF(results, computedTotals);
+      showToast('PDF exported successfully!', 'success');
+    } catch (error) {
+      showToast('Failed to export PDF', 'error');
+      console.error('PDF export error:', error);
+    }
+  };
+
+  const handleEdit = (company: CompanyInput) => {
+    // Remove from results table
+    removeResult(company.id);
+
+    // Load into form for editing
+    if ((window as any).__formDataLoad) {
+      (window as any).__formDataLoad([company]);
+    }
+
+    // Scroll to form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast(`Editing: ${company.companyName}`, 'info');
   };
 
   return (
     <Container>
       <div className="space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Non-Masking SMS Calculator
-          </h1>
-          <p className="text-gray-600">
-            Calculate billing and gross profit for non-masking SMS services
-          </p>
-        </div>
+        <PageHeader
+          title="Non-Masking SMS Calculator"
+          subtitle="Calculate billing and gross profit for non-masking SMS services"
+        />
 
-        <CompanyInputForm onSubmit={handleSubmit} />
+        <CompanyInputForm
+          onSubmit={handleSubmit}
+          onFormReset={() => {}}
+          onFormDataLoad={() => {}}
+        />
 
         {results.length > 0 && (
           <>
-            <ResultsTable data={results} />
+            <ResultsTable data={results} onEdit={handleEdit} />
             <CalculatorActions
               onExport={handleExport}
               onReset={handleReset}

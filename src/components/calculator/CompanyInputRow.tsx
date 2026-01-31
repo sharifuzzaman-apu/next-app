@@ -4,6 +4,7 @@ import React from 'react';
 import { CompanyInput } from '@/lib/types';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import { useCompanyInputRow } from '@/hooks/useCompanyInputRow';
 
 interface CompanyInputRowProps {
   company: CompanyInput;
@@ -24,20 +25,26 @@ export default function CompanyInputRow({
   onRemove,
   showRemove,
 }: CompanyInputRowProps) {
+  const { draftValues, handleNumericChange } = useCompanyInputRow(company);
+
   const handleInputChange =
     (field: keyof CompanyInput) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value =
-        field === 'companyName'
-          ? e.target.value
-          : parseFloat(e.target.value) || 0;
-      onChange(index, field, value);
+      if (field === 'companyName') {
+        onChange(index, field, e.target.value);
+      } else {
+        handleNumericChange(
+          field as Exclude<keyof CompanyInput, 'id' | 'companyName'>,
+          e.target.value,
+          (value) => onChange(index, field, value),
+        );
+      }
     };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-7 gap-4 p-4 rounded-full shadow bg-gray-50 items-end">
+    <div className="grid grid-cols-1 md:grid-cols-7 gap-4 p-6 rounded-2xl shadow-lg bg-gradient-to-br from-white to-blue-50 items-end border border-blue-100 hover:shadow-xl transition-all duration-300 hover:border-blue-200">
       <div className="">
         <Input
-          className="border-2 rounded-full bg-gray-100"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="Company Name"
           type="text"
           placeholder="Enter name"
@@ -49,12 +56,12 @@ export default function CompanyInputRow({
 
       <div>
         <Input
-          className="border-2 rounded-full"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="No. of Numbers"
           type="number"
           min="0"
           placeholder="0"
-          value={company.numberOfNumbers || ''}
+          value={draftValues.numberOfNumbers}
           onChange={handleInputChange('numberOfNumbers')}
           required
         />
@@ -62,12 +69,12 @@ export default function CompanyInputRow({
 
       <div>
         <Input
-          className="border-2 rounded-full"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="No. of SMS"
           type="number"
           min="0"
           placeholder="0"
-          value={company.numberOfSMS || ''}
+          value={draftValues.numberOfSMS}
           onChange={handleInputChange('numberOfSMS')}
           required
         />
@@ -75,13 +82,12 @@ export default function CompanyInputRow({
 
       <div>
         <Input
-          className="border-2 rounded-full"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="Price Rate"
-          type="number"
-          step="0.01"
-          min="0"
+          type="text"
+          inputMode="decimal"
           placeholder="0.00"
-          value={company.priceRate || ''}
+          value={draftValues.priceRate}
           onChange={handleInputChange('priceRate')}
           required
         />
@@ -89,13 +95,12 @@ export default function CompanyInputRow({
 
       <div>
         <Input
-          className="border-2 rounded-full"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="Intercloud Rate"
-          type="number"
-          step="0.01"
-          min="0"
+          type="text"
+          inputMode="decimal"
           placeholder="0.00"
-          value={company.intercloudRate || ''}
+          value={draftValues.intercloudRate}
           onChange={handleInputChange('intercloudRate')}
           required
         />
@@ -103,13 +108,12 @@ export default function CompanyInputRow({
 
       <div>
         <Input
-          className="border-2 rounded-full"
+          className="border-2 border-blue-200 rounded-xl bg-white hover:border-blue-400 transition-colors shadow-sm"
           label="BTRC Rate"
-          type="number"
-          step="0.01"
-          min="0"
+          type="text"
+          inputMode="decimal"
           placeholder="0.00"
-          value={company.btrcRate || ''}
+          value={draftValues.btrcRate}
           onChange={handleInputChange('btrcRate')}
           required
         />
@@ -122,9 +126,9 @@ export default function CompanyInputRow({
             size="md"
             onClick={() => onRemove(index)}
             type="button"
-            className="w-full"
+            className="w-full shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
           >
-            Remove
+            ❌ Remove
           </Button>
         )}
       </div>

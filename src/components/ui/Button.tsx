@@ -14,13 +14,17 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    'font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+    'font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95';
 
   const variantStyles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400',
-    danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
-    success: 'bg-green-600 text-white hover:bg-green-700 active:bg-green-800',
+    primary:
+      'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-blue-200',
+    secondary:
+      'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 hover:from-gray-200 hover:to-gray-300 border border-gray-300',
+    danger:
+      'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-red-200',
+    success:
+      'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-green-200',
   };
 
   const sizeStyles = {
