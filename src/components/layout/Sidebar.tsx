@@ -24,6 +24,18 @@ const navItems: NavItem[] = [
 
     available: true,
   },
+  {
+    name: 'Cash',
+    href: '/cash',
+
+    available: true,
+  },
+  {
+    name: 'Expenses',
+    href: '/expenses',
+
+    available: true,
+  },
 ];
 
 export default function Sidebar() {

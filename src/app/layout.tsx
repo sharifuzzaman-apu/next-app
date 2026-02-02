@@ -5,6 +5,8 @@ import './globals.css';
 import Footer from '@/components/layout/Footer';
 import Sidebar from '@/components/layout/Sidebar';
 import { ToastProvider } from '@/components/ui/toast/ToastProvider';
+import { ReduxProvider } from '@/lib/redux/provider';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,13 +42,16 @@ export default function RootLayout({
       <body
         className={`${inter.className} flex min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100`}
       >
-        <ToastProvider>
-          <Sidebar />
-          <div className="flex-1 ml-sidebar flex flex-col">
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-        </ToastProvider>
+        <ReduxProvider>
+          <ToastProvider>
+            <Toaster position="top-right" />
+            <Sidebar />
+            <div className="flex-1 ml-sidebar flex flex-col">
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+          </ToastProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
