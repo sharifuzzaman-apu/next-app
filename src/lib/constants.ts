@@ -2,8 +2,12 @@
  * Constants for SMS Billing Calculator
  */
 
-// VAT rate (15%)
+// VAT rate (5%)
+export const VAT_RATE_BUY = 0.05;
+
 export const VAT_RATE = 0.15;
+
+
 
 // Default values for new company row
 export const DEFAULT_COMPANY_INPUT = {

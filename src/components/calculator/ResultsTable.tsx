@@ -36,7 +36,7 @@ export default function ResultsTable({ data, onEdit }: ResultsTableProps) {
               <th className="px-4 py-3 text-right font-semibold">
                 Price Charged
               </th>
-              <th className="px-4 py-3 text-right font-semibold">VAT (15%)</th>
+              <th className="px-4 py-3 text-right font-semibold">VAT (5%)</th>
               <th className="px-4 py-3 text-right font-semibold">
                 Intercloud Rate
               </th>

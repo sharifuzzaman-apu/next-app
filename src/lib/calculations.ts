@@ -8,6 +8,7 @@ import {
   CompanyData,
   TotalsSummary,
 } from './types';
+import { VAT_RATE_BUY } from './constants';
 import { VAT_RATE } from './constants';
 
 /**
@@ -20,7 +21,7 @@ export function calculateCompanyBilling(input: CompanyInput): CompanyOutput {
   const priceCharged = input.numberOfSMS * input.priceRate;
 
   // 2. VAT for the price (inclusive) = Price charged × 15 / 115
-  const vatForPrice = priceCharged * (VAT_RATE / (1 + VAT_RATE));
+  const vatForPrice = priceCharged * (VAT_RATE_BUY / (1 + VAT_RATE_BUY));
 
   // 3. Paid to Intercloud = No. of SMS × Intercloud rate
   const paidToIntercloud = input.numberOfSMS * input.intercloudRate;
